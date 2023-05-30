@@ -1,12 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Prueba</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block header %}
+    <h2>{% block title %}Usuarios Registrados{% endblock %}</h2>
+{% endblock %}
+
+<br><br>
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+               
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleados  in empleados %}
+            <tr>
+                <td>{{empleados[0]}}</td>
+                <td>{{empleados[1]}}</td>
+                <td>{{empleados[2]}}</td>
+                <td><a class="btn btn-warning" href="/edit/{{empleados[0]}}">Editar</a> |
+                    <a class="btn btn-danger" href="/destroy/{{empleados[0]}}">Eliminar</a>
+                    </td>
+            </tr>
+            {% endfor %}
+           
+        </tbody>
+    </table>
+ 

@@ -63,6 +63,10 @@ def login():
         if user.tipoUsuario=="Administrador":
             session.clear()
             session['user_id'] = user.id
+           
+            sql="select *from users"
+            
+
             return render_template('blog/panelAdmin.html')
         
         elif error is None:
