@@ -18,8 +18,10 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-
-        user = User(username, generate_password_hash(password))
+        tipoUsuario=request.form.get('select')
+        
+        #instruccion sql
+        user = User(username, generate_password_hash(password),tipoUsuario)
 
         error = None
         if not username:
@@ -44,22 +46,32 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        tipoUsuario=request.form.get('select')
 
         error = None
         
         user = User.query.filter_by(username = username).first()
-
+        
         if user == None:
             error = 'Nombre de usuario incorrecto'
         elif not check_password_hash(user.password, password):
             error = 'Contraseña incorrecta'
-
-        if error is None:
+            #validacion de tipo de usuario
+        elif not user.tipoUsuario==tipoUsuario:
+            error='Tipo de eusuario incorrecto'
+        
+        if user.tipoUsuario=="Administrador":
+            session.clear()
+            session['user_id'] = user.id
+            return render_template('blog/panelAdmin.html')
+        
+        elif error is None:
             session.clear()
             session['user_id'] = user.id
             return redirect(url_for('blog.index'))
         
         flash(error)
+        
         
     return render_template('auth/login.html')
 
