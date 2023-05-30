@@ -105,7 +105,8 @@ def login():
         if user.tipoUsuario=="Administrador":
             session.clear()
             session['user_id'] = user.id
-            return render_template('blog/indexAdmin.html')
+            return redirect(url_for('blog.indexAdmin'))
+            #return render_template('blog/indexAdmin.html')
         
         elif error is None:
             session.clear()

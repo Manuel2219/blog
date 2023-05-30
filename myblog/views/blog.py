@@ -59,6 +59,31 @@ def create():
         
     return render_template('blog/create.html')
 
+@blog.route('/blog/createAdmin', methods=('GET','POST'))
+@login_required
+def createAdmin():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        body = request.form.get('body')
+
+        post = Post(g.user.id, title, body)
+
+        error = None
+        if not title:
+            error = 'Se requiere un título'
+        
+        if error is not None:
+            flash(error)
+        else:
+            db.session.add(post)
+            db.session.commit()
+            #return render_template('blog/indexAdmin.html')
+            return redirect(url_for('blog.indexAdmin'))
+        
+        flash(error)
+        
+    return render_template('blog/createAdmin.html')
+
 def get_post(id, check_author=True):
     post = Post.query.get(id)
 
@@ -96,6 +121,33 @@ def update(id):
         
     return render_template('blog/update.html', post=post)
 
+@blog.route('/blog/updateAdmin/<int:id>', methods=('GET','POST'))
+@login_required
+def updateAdmin(id):
+
+    post = get_post(id) 
+
+    if request.method == 'POST':
+        post.title = request.form.get('title')
+        post.body = request.form.get('body')
+
+        error = None
+        if not post.title:
+            error = 'Se requiere un título'
+        
+        if error is not None:
+            flash(error)
+        else:
+            db.session.add(post)
+            db.session.commit()
+            return redirect(url_for('blog.indexAdmin'))
+        
+        flash(error)
+        
+    return render_template('blog/updateAdmin.html', post=post)
+
+
+
 #Eliminar un post
 @blog.route('/blog/delete/<int:id>')
 @login_required
@@ -106,3 +158,13 @@ def delete(id):
     db.session.commit()
 
     return redirect(url_for('blog.index'))
+
+@blog.route('/blog/deleteAdmin/<int:id>')
+@login_required
+def deleteAdmin(id):
+    
+    post = get_post(id)
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(url_for('blog.indexAdmin'))
