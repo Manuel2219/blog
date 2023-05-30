@@ -20,7 +20,7 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        tipoUsuario=request.form.get('select')
+        tipoUsuario="usuario"
         
         #instruccion sql
         user = User(username, generate_password_hash(password),tipoUsuario)
@@ -41,6 +41,35 @@ def register():
         flash(error)
         
     return render_template('auth/register.html')
+
+
+
+@auth.route('/registerAdmin', methods=('GET','POST'))
+def registerAdmin():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        tipoUsuario=request.form.get('select')
+        
+        #instruccion sql
+        user = User(username, generate_password_hash(password),tipoUsuario)
+
+        error = None
+        if not username:
+            error = 'Se requiere nombre de usuario'
+        elif not password:
+            error = 'Se requiere contraseña'
+        
+        user_name = User.query.filter_by(username = username).first()
+        if user_name == None:
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('auth.login'))
+        else:
+            error = f'El usuario {username} ya esta registrado'
+        flash(error)
+        
+    return render_template('auth/registerAdmin.html')
 
 @auth.route('/sobre')
 def sobre():

@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/blog.ico')}}" type="image/x-icon">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     
     <title>{% block title %}{% endblock %}-Myblog</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
@@ -25,11 +24,13 @@
                 <a href="{{ url_for('auth.logout') }}">Cerrar Sesión</a>
                 {% else %}
                 <a href="{{ url_for('auth.registerAdmin') }}">Registrar Usuario</a>
-                <a href="#">Mostrar usuarios</a>
-                <a href="{{ url_for('auth.mostrarUsuarios') }}">Mostrar Usuarios</a>
+                <a href="{{ url_for('auth.login') }}">Iniciar Sesión</a>
                 
+                <a href="{{ url_for('auth.sobre') }}">sobre nosotros</a>
                 {% endif %}
+                
             </nav>
+           
         </div>
         
     </header>
@@ -46,35 +47,5 @@
         </div>
         
     </section>
-    <div>
-        <table class="table table-light">
-            <thead class="thead-light">
-                <tr>
-                    <th>id</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Tipo de Usuario</th>
-                    <th>Acciones</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                {% for data  in data %}
-                <tr>
-                    <td>{{data.id}}</td>
-                    <td>{{data.username}}</td>
-                    <td>{{data.tipoUsuario}}</td>
-                    <td>
-                        <a class="btn btn-danger" href="#">Eliminar</a>
-                    </td>
-                </tr>
-                {% endfor %}
-    </div>
-   
-
-
-
 </body>
 </html>
-
-
- 
