@@ -96,13 +96,13 @@ def login():
         
         if user == None:
             error = 'Nombre de usuario incorrecto'
-        elif not check_password_hash(user.password, password):
+        if not check_password_hash(user.password, password):
             error = 'Contraseña incorrecta'
             #validacion de tipo de usuario
-        elif not  user.tipoUsuario==tipoUsuario:
+        if not  user.tipoUsuario==tipoUsuario:
             error='Tipo de eusuario incorrecto'
         
-        if user.tipoUsuario=="Administrador":
+        if not user.tipoUsuario=="Administrador":
             session.clear()
             session['user_id'] = user.id
             return redirect(url_for('blog.indexAdmin'))
