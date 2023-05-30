@@ -27,6 +27,13 @@ def index():
     db.session.commit()
     return render_template('blog/index.html', posts = posts, get_user=get_user)
 
+@blog.route("/IndexAdmin")
+def indexAdmin():
+    posts = Post.query.all()
+    posts = list(reversed(posts))
+    db.session.commit()
+    return render_template('blog/indexAdmin.html', posts = posts, get_user=get_user)
+
 #Registrar un post 
 @blog.route('/blog/create', methods=('GET','POST'))
 @login_required
@@ -93,6 +100,7 @@ def update(id):
 @blog.route('/blog/delete/<int:id>')
 @login_required
 def delete(id):
+    
     post = get_post(id)
     db.session.delete(post)
     db.session.commit()

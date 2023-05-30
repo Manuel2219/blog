@@ -64,7 +64,7 @@ def registerAdmin():
         if user_name == None:
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('blog.indexAdmin'))
         else:
             error = f'El usuario {username} ya esta registrado'
         flash(error)
@@ -99,14 +99,13 @@ def login():
         elif not check_password_hash(user.password, password):
             error = 'Contraseña incorrecta'
             #validacion de tipo de usuario
-        elif not user.tipoUsuario==tipoUsuario:
+        elif not  user.tipoUsuario==tipoUsuario:
             error='Tipo de eusuario incorrecto'
         
         if user.tipoUsuario=="Administrador":
             session.clear()
             session['user_id'] = user.id
-
-            return render_template('blog/panelAdmin.html')
+            return render_template('blog/indexAdmin.html')
         
         elif error is None:
             session.clear()
@@ -141,3 +140,12 @@ def login_required(view):
             return redirect(url_for('auth.login'))
         return view(**kwargs)
     return wrapped_view
+
+
+
+@auth.route('/delete/<int:id>')
+def delete(id):
+     user=User.query.get(id)
+     db.session.delete(user)
+     db.session.commit() 
+     return redirect(url_for('blog.indexAdmin'))
