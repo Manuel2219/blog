@@ -23,9 +23,8 @@
                 <span>{{ g.user.username }}</span>
                 <a href="{{ url_for('auth.logout') }}">Cerrar Sesión</a>
                 <a href="{{ url_for('auth.mostrarUsuarios') }}">Mostrar Usuarios</a>
+                <a href="{{ url_for('blog.mostrarPublicaciones') }}">Registro de publicaciones</a>
                 <a href="{{ url_for('auth.registerAdmin') }}">Registrar Usuario</a>
-                
-                
                 <a href="{{ url_for('auth.sobre') }}">sobre nosotros</a>
                 {% endif %}
                 

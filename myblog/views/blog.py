@@ -168,3 +168,9 @@ def deleteAdmin(id):
     db.session.commit()
 
     return redirect(url_for('blog.indexAdmin'))
+
+@blog.route('/mostrarPublicaciones')
+def mostrarPublicaciones():
+    data = Post.query.all()
+    db.session.commit()
+    return render_template('blog/mostrarPublicaciones.html',data=data)

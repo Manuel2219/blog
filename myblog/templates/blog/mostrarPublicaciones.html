@@ -25,7 +25,6 @@
                 <a href="{{ url_for('auth.logout') }}">Cerrar Sesión</a>
                 <a href="{{ url_for('auth.mostrarUsuarios') }}">Mostrar Usuarios</a>
                 <a href="{{ url_for('auth.registerAdmin') }}">Registrar Usuario</a>
-                
                 <a href="{{ url_for('blog.mostrarPublicaciones') }}">Registro de publicaciones</a>
                 <a href="{{ url_for('auth.sobre') }}">sobre nosotros</a>
                 
@@ -52,9 +51,10 @@
             <thead class="thead-light">
                 <tr>
                     <th>id</th>
-                    <th>Nombre de Usuario</th>
-                    <th>Tipo de Usuario</th>
-                    <th>Acciones</th>
+                    <th>Autor</th>
+                    <th>Titulo</th>
+                    <th>Cuerpo del Post</th>
+                    <th>Fecha del Post</th>
                     
                 </tr>
             </thead>
@@ -62,11 +62,11 @@
                 {% for data  in data %}
                 <tr>
                     <td>{{data.id}}</td>
-                    <td>{{data.username}}</td>
-                    <td>{{data.tipoUsuario}}</td>
-                    <td>
-                        <a class="btn btn-danger" href="{{ url_for('auth.delete', id=data.id) }}">Eliminar</a>
-                    </td>
+                    <td>{{data.author}}</td>
+                    <td>{{data.title}}</td>
+                    <td>{{data.body}}</td>
+                    <td>{{data.created}}</td>
+                    
                 </tr>
                 {% endfor %}
     </div>
@@ -76,6 +76,3 @@
 
 </body>
 </html>
-
-
- 
