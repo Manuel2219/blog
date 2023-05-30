@@ -5,10 +5,12 @@ from flask import(
 )
 
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from flaskext.mysql import MySQL
 from myblog.models.user import User
 
 from myblog import db
+
+
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -40,7 +42,18 @@ def register():
         
     return render_template('auth/register.html')
 
-#Iniciar Sesión
+@auth.route('/sobre')
+def sobre():
+    return render_template('blog/sobre.html')
+
+@auth.route('mostrarUsuarios')
+def mostrarUsuarios():
+    data = User.query.all()
+    db.session.commit()
+    return render_template('blog/panelAdmin.html',data=data)
+
+
+
 @auth.route('/login', methods=('GET','POST'))
 def login():
     if request.method == 'POST':
@@ -63,15 +76,13 @@ def login():
         if user.tipoUsuario=="Administrador":
             session.clear()
             session['user_id'] = user.id
-           
-            sql="select *from users"
-            
 
             return render_template('blog/panelAdmin.html')
         
         elif error is None:
             session.clear()
             session['user_id'] = user.id
+            
             return redirect(url_for('blog.index'))
         
         flash(error)
